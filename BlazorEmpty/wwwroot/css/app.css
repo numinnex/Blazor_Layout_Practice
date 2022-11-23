@@ -42,14 +42,37 @@ select {
         scroll-behavior: auto !important;
     }
 }
+/* reset end*/
+
+:root {
+    /* font-families */
+    --ff-serif: "Bellefair", serif;
+    --ff-sans-cond: "Barlow Condensed", sans-serif;
+    --ff-sans-normal: "Barlow", sans-serif;
+}
 
 body {
+    font-family: var(--ff-sans-normal);
+    font-size: 1.125rem;
+    color: hsl(0 0% 100%);
+    background-color: hsl(230 35% 7%);
     line-height: 1.5;
     min-height: 100vw;
     overflow-x: hidden;
 }
 
-/* reset end*/
+
+.ff-serif {
+    font-family: var(--ff-serif);
+}
+
+.ff-sans-cond {
+    font-family: var(--ff-sans-cond);
+}
+
+.ff-sans-normal {
+    font-family: var(--ff-sans-normal);
+}
 
 h1:focus {
     outline: none;

@@ -1,13 +1,24 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="wrapper">
-    <div class="navbar">
+    <div class="flex items-center justify-between">
         <NavMenu></NavMenu>
     </div>
-
     <main>
         <article>
-            @Body
+            <CascadingValue Value="this" Name="MainLayout">
+                @Body
+            </CascadingValue>
         </article>
     </main>
 </div>
+
+<style>
+    body {
+    }
+</style>
+
+@code {
+
+    public string bg { get; set; }
+}

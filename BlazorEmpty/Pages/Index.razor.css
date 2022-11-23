@@ -1,0 +1,25 @@
+﻿
+
+.active-tab {
+    border: 0;
+    border-bottom: 1px solid white;
+}
+
+    .active-tab:hover {
+        border: 0;
+        border-bottom: 1px solid white;
+    }
+
+.active-dot {
+    opacity: 0.8;
+}
+
+    .active-dot:hover {
+        opacity: 0.8;
+    }
+
+.active-dot-number {
+    background-color: white;
+    color: black;
+    border: 0;
+}

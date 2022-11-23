@@ -1,5 +1,4 @@
 ﻿li a {
-    color: black;
     text-transform: uppercase;
 }
 
@@ -28,8 +27,6 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    background-color: #FAACA8;
-    background-image: linear-gradient(90deg, #FAACA8 0%, #DDD6F3 100%);
 }
 
 
@@ -46,6 +43,15 @@
     transform: translateX(0%) !important;
 }
 
+.active {
+    border-bottom: 1px solid white;
+}
+
+    .active:hover {
+        border-bottom: 1px solid white;
+    }
+
+
 @media(min-width: 40em ) and (max-width:55em) {
     .primary-navigation a > span {
         display: none;
@@ -55,7 +61,6 @@
 @media(min-width:35em) {
     .primary-navigation {
         --gap: 3rem;
-        padding-block: 2rem;
         padding-inline: clamp(3rem,6vw, 10rem);
     }
 }
@@ -73,6 +78,7 @@
     }
 
     .mobile-nav-tog {
+        filter: invert(100%);
         display: block;
         position: absolute;
         z-index: 99999;
@@ -86,6 +92,7 @@
     }
 
     .mobile-nav-close {
+        filter: invert(100%);
         display: block;
         position: absolute;
         z-index: 99999;
