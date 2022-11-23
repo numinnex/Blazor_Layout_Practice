@@ -1,0 +1,79 @@
+﻿@page "/destination"
+@page "/destination/{name}"
+
+@inject NavigationManager navManager
+
+<div class="container px-10 mx-auto gap-0 lg:gap-20 grid grid-cols-1 lg:grid-cols-2 lg:h-screen">
+    <div class="col-span-1">
+        <h1 class="text-2xl lg:text-3xl uppercase text-center md:text-left tracking-widest mb-16 ">
+            <span class="opacity-40">01</span> Pick your destination
+        </h1>
+        <img src="/image-moon.png" class="mx-auto w-6/12 lg:w-fit" />
+    </div>
+    <div class="mt-3 sm:mt-10 lg:place-self-center">
+        <div class="">
+            <ul id="primary-navigation" class="list-none p-0 m-0 gap-5 flex justify-center lg:justify-start ">
+                <li class="@navMenuClass @GetActive("destination" , NavLinkMatch.All)">
+                    <a href="/destination" class="tracking-widest ff-sans-cond uppercase ">
+                        Moon
+                    </a>
+                </li>
+                <li class="@navMenuClass @GetActive("destination/mars" , NavLinkMatch.All)">
+                    <a href="/destination/mars" class="tracking-widest ff-sans-cond uppercase ">
+                        Mars
+                    </a>
+                </li>
+                <li class="@navMenuClass @GetActive("destination/europa" , NavLinkMatch.All)">
+                    <a href="/destination/europa" class="tracking-widest ff-sans-cond uppercase ">
+                        Europa
+                    </a>
+                </li>
+                <li class="@navMenuClass @GetActive("destination/titan" , NavLinkMatch.All)">
+                    <a href="/destination/titan" class="tracking-widest ff-sans-cond uppercase ">
+                        Titan
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="text-center lg:text-left">
+            <h1 class="uppercase text-8xl ff-sans-normal my-5">
+                Moon
+            </h1>
+            <p class="ff-serif">
+                See our planet as you’ve never seen it before. A perfect relaxing trip away to help
+                regain perspective and come back refreshed. While you’re there, take in some history
+                by visiting the Luna 2 and Apollo 11 landing sites.
+            </p>
+        </div>
+        <div class="my-6 border-b-2 border-gray-100 opacity-20">
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 justify-items-center lg:justify-items-start ">
+            <div class="text-center lg:text-left">
+                <span class="uppercase text-xs text-gray-700">avg.distance</span>
+                <h3 class="text-2xl ff-sans-normal uppercase">384,400 KM</h3>
+            </div>
+            <div class="text-center lg:text-left">
+                <span class="uppercase text-xs text-gray-700">est. travel time</span>
+                <h3 class="text-2xl ff-sans-normal uppercase">3 days</h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@code {
+    [Parameter]
+    public string Name { get; set; }
+
+    private string navMenuClass = "border-b-2 border-transparent py-2 hover:border-gray-500 focus:border-gray-500";
+
+    bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
+    {
+        var relativePath = navManager.ToBaseRelativePath(navManager.Uri).ToLower();
+        return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
+    }
+
+    string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
+
+}

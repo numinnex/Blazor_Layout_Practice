@@ -1,30 +1,31 @@
-﻿<div class="logo">
-    <img src="logo.svg" />
+﻿@inject NavigationManager navManager
+<div class="">
+    <img src="logo.svg" class="logo" />
 </div>
 
 <button class="@toggleIcon" aria-controls="primary-navigation text-white" @onclick="ToggleNav">
 </button>
 
-<nav>
+<nav class="">
     <ul id="primary-navigation" class="primary-navigation flex @visibilityClass p-0 m-0">
-        <li class="active border-b-2 border-transparent py-3 hover:border-gray-500 focus:border-gray-500">
-            <a href="" class="tracking-widest ff-sans-cond">
-                <span aria-hidden="true" class="opacity-40">00</span> Home
+        <li class="@navMenuClass @GetActive("" , NavLinkMatch.All)">
+            <a href="/" class="tracking-widest ff-sans-cond uppercase ">
+                <span aria-hidden="true" class="opacity-40">00</span>Home
             </a>
         </li>
-        <li class="border-b-2 border-transparent py-3 hover:border-gray-500 focus:border-gray-500 ">
-            <a href="" class="tracking-widest ff-sans-cond">
-                <span aria-hidden="true" class="opacity-40">01</span> Destination
+        <li class="@navMenuClass @GetActive("destination" , NavLinkMatch.All)">
+            <a href="/destination" class="tracking-widest ff-sans-cond uppercase ">
+                <span aria-hidden="true" class="opacity-40">01</span>Destination
             </a>
         </li>
-        <li class="border-b-2 border-transparent py-3 hover:border-gray-500 focus:border-gray-500 ">
-            <a href="" class="tracking-widest ff-sans-cond">
-                <span aria-hidden="true" class="opacity-40">02</span> Crew
+        <li class="@navMenuClass @GetActive("crew" , NavLinkMatch.All)">
+            <a href="/crew" class="tracking-widest ff-sans-cond uppercase ">
+                <span aria-hidden="true" class="opacity-40">02</span>Crew
             </a>
         </li>
-        <li class="border-b-2 border-transparent py-3 hover:border-gray-500 focus:border-gray-500 ">
-            <a href="" class="tracking-widest ff-sans-cond">
-                <span aria-hidden="true" class="opacity-40">03</span> Technology
+        <li class="@navMenuClass @GetActive("technology" , NavLinkMatch.All)">
+            <a href="/technology" class="tracking-widest ff-sans-cond uppercase ">
+                <span aria-hidden="true" class="opacity-40">03</span>Technology
             </a>
         </li>
     </ul>
@@ -40,4 +41,18 @@
         showNav = !showNav;
     }
 
+    private string navMenuClass = "border-b-2 border-transparent py-5  hover:border-gray-500 focus:border-gray-500";
+
+    protected override void OnInitialized() => navManager.LocationChanged += (s, e) => StateHasChanged();
+
+    bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
+    {
+        var relativePath = navManager.ToBaseRelativePath(navManager.Uri).ToLower().Split('/').First();
+        return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
+    }
+
+    string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
 }
+
+
+

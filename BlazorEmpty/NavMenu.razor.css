@@ -29,18 +29,12 @@
     margin: 0;
 }
 
-
-    .primary-navigation a {
-        text-decoration: none;
-    }
-
-        .primary-navigation a > span {
-            font-weight: 700;
-            margin-inline-end: .65em;
-        }
-
-.visible {
-    transform: translateX(0%) !important;
+.line {
+    height: 1px;
+    width: 40%;
+    background: white;
+    opacity: 0.4;
+    margin-inline: 2rem;
 }
 
 .active {
@@ -52,6 +46,20 @@
     }
 
 
+.primary-navigation a {
+    text-decoration: none;
+}
+
+    .primary-navigation a > span {
+        font-weight: 700;
+        margin-inline-end: .65em;
+    }
+
+.visible {
+    transform: translateX(0%) !important;
+}
+
+
 @media(min-width: 40em ) and (max-width:55em) {
     .primary-navigation a > span {
         display: none;
@@ -61,7 +69,8 @@
 @media(min-width:35em) {
     .primary-navigation {
         --gap: 3rem;
-        padding-inline: clamp(3rem,6vw, 10rem);
+        padding-inline: clamp(3rem,7vw, 10rem);
+        backdrop-filter: blur(.4rem);
     }
 }
 
@@ -69,6 +78,7 @@
     .primary-navigation {
         --gap: 2em;
         position: fixed;
+        backdrop-filter: blur(.4rem);
         z-index: 1000;
         inset: 0 0 0 30%;
         flex-direction: column;

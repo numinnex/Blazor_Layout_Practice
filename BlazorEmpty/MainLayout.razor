@@ -1,24 +1,66 @@
 ﻿@inherits LayoutComponentBase
+@inject NavigationManager navManager
 
 <div class="wrapper">
-    <div class="flex items-center justify-between">
+    <div class="primary-header flex items-center justify-between">
         <NavMenu></NavMenu>
     </div>
     <main>
         <article>
-            <CascadingValue Value="this" Name="MainLayout">
-                @Body
-            </CascadingValue>
+            @Body
         </article>
     </main>
 </div>
 
-<style>
+<style scoped>
     body {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: bottom center;
+        background-image: @bg_sm;
+    }
+
+    @@media (min-width: 640px) {
+        body {
+            background-image: @bg_md;
+        }
+    }
+
+    @@media (min-width: 768px) {
+        body {
+            background-image: @bg;
+        }
     }
 </style>
 
 @code {
+    public string bg { get; set; } = "";
+    public string bg_md { get; set; } = "";
+    public string bg_sm { get; set; } = "";
 
-    public string bg { get; set; }
+    private void ChangeBackgroundImage()
+    {
+        string absoluteUri = navManager.ToBaseRelativePath(navManager.Uri);
+
+        List<string> uriParameters = absoluteUri.Split('/').ToList();
+
+        if (uriParameters.First() == "destination")
+        {
+            bg = "url('background-destination-desktop.jpg')";
+            bg_md = "url('background-destination-tablet.jpg')";
+            bg_sm = "url('background-destination-mobile.jpg')";
+        }
+        else if (uriParameters.First() == "")
+        {
+            bg = "url('background-home-desktop.jpg')";
+            bg_md = "url('background-home-tablet.jpg')";
+            bg_sm = "url('background-home-mobile.jpg')";
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        ChangeBackgroundImage();
+    }
 }
