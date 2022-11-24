@@ -8,12 +8,12 @@
         <h1 class="text-2xl lg:text-3xl uppercase text-center md:text-left tracking-widest mb-16 ">
             <span class="opacity-40">01</span> Pick your destination
         </h1>
-        <img src="/image-moon.png" class="mx-auto w-6/12 lg:w-fit" />
+        <img src="@imgSrc" class="mx-auto w-6/12 lg:w-fit" />
     </div>
     <div class="mt-3 sm:mt-10 lg:place-self-center">
         <div class="">
             <ul id="primary-navigation" class="list-none p-0 m-0 gap-5 flex justify-center lg:justify-start ">
-                <li class="@navMenuClass @GetActive("destination" , NavLinkMatch.All)">
+                <li class="@navMenuClass @GetActive("destination" , NavLinkMatch.All)  @GetActive("destination/moon" , NavLinkMatch.All)">
                     <a href="/destination" class="tracking-widest ff-sans-cond uppercase ">
                         Moon
                     </a>
@@ -35,28 +35,59 @@
                 </li>
             </ul>
         </div>
-        <div class="text-center lg:text-left">
-            <h1 class="uppercase text-8xl ff-sans-normal my-5">
-                Moon
-            </h1>
-            <p class="ff-serif">
-                See our planet as you’ve never seen it before. A perfect relaxing trip away to help
-                regain perspective and come back refreshed. While you’re there, take in some history
-                by visiting the Luna 2 and Apollo 11 landing sites.
-            </p>
-        </div>
-        <div class="my-6 border-b-2 border-gray-100 opacity-20">
-        </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 justify-items-center lg:justify-items-start ">
-            <div class="text-center lg:text-left">
-                <span class="uppercase text-xs text-gray-700">avg.distance</span>
-                <h3 class="text-2xl ff-sans-normal uppercase">384,400 KM</h3>
-            </div>
-            <div class="text-center lg:text-left">
-                <span class="uppercase text-xs text-gray-700">est. travel time</span>
-                <h3 class="text-2xl ff-sans-normal uppercase">3 days</h3>
-            </div>
-        </div>
+        @if (Name is null)
+        {
+            <DestinationDetails Destination="Moon" Distance="384,400 mil" TravelTime="3 days">
+                <Description>
+                    See our planet as you’ve never seen it before. A perfect relaxing trip away to help
+                    regain perspective and come back refreshed. While you’re there, take in some history
+                    by visiting the Luna 2 and Apollo 11 landing sites.
+                </Description>
+            </DestinationDetails>
+        }
+        else if (Name.ToLower() == "mars")
+        {
+
+            <DestinationDetails Destination="Mars" Distance="225 mil" TravelTime="9 months">
+                <Description>
+                    Don’t forget to pack your hiking boots. You’ll need them to tackle Olympus Mons,
+                    the tallest planetary mountain in our solar system. It’s two and a half times
+                    the size of Everest!
+                </Description>
+            </DestinationDetails>
+        }
+        else if (Name.ToLower() == "europa")
+        {
+
+            <DestinationDetails Destination="Europa" Distance="628 mil" TravelTime="3 years">
+                <Description>
+                    The smallest of the four Galilean moons orbiting Jupiter, Europa is a
+                    winter lover’s dream. With an icy surface, it’s perfect for a bit of
+                    ice skating, curling, hockey, or simple relaxation in your snug
+                    wintery cabin.
+                </Description>
+            </DestinationDetails>
+        }
+        else if (Name.ToLower() == "titan")
+        {
+            <DestinationDetails Destination="Titan" Distance="1,6 bil" TravelTime="7 years">
+                <Description>
+                    The only moon known to have a dense atmosphere other than Earth, Titan
+                    is a home away from home (just a few hundred degrees colder!). As a
+                    bonus, you get striking views of the Rings of Saturn.
+                </Description>
+            </DestinationDetails>
+        }
+        else if (Name.ToLower() == "moon")
+        {
+            <DestinationDetails Destination="Moon" Distance="384,400 mil" TravelTime="3 days">
+                <Description>
+                    See our planet as you’ve never seen it before. A perfect relaxing trip away to help
+                    regain perspective and come back refreshed. While you’re there, take in some history
+                    by visiting the Luna 2 and Apollo 11 landing sites.
+                </Description>
+            </DestinationDetails>
+        }
     </div>
 </div>
 
@@ -67,12 +98,45 @@
     public string Name { get; set; }
 
     private string navMenuClass = "border-b-2 border-transparent py-2 hover:border-gray-500 focus:border-gray-500";
+    private string imgSrc = "";
+
+    private void ChangeImgSrc()
+    {
+        if (IsActive("destination", NavLinkMatch.All))
+        {
+            imgSrc = "/image-moon.png";
+        }
+        else if (IsActive("destination/mars", NavLinkMatch.All))
+        {
+            imgSrc = "/image-mars.png";
+        }
+        else if (IsActive("destination/europa", NavLinkMatch.All))
+        {
+            imgSrc = "/image-europa.png";
+        }
+        else if (IsActive("destination/titan", NavLinkMatch.All))
+        {
+            imgSrc = "/image-titan.png";
+        }
+        else if (IsActive("destination/moon", NavLinkMatch.All))
+        {
+            imgSrc = "/image-moon.png";
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        ChangeImgSrc();
+    }
+
 
     bool IsActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix)
     {
         var relativePath = navManager.ToBaseRelativePath(navManager.Uri).ToLower();
         return navLinkMatch == NavLinkMatch.All ? relativePath == href.ToLower() : relativePath.StartsWith(href.ToLower());
     }
+
+
 
     string GetActive(string href, NavLinkMatch navLinkMatch = NavLinkMatch.Prefix) => IsActive(href, navLinkMatch) ? "active" : "";
 
